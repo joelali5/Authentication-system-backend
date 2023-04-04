@@ -1,0 +1,32 @@
+{
+  "name": "authentication-system-backend",
+  "version": "1.0.0",
+  "description": "An authentication system",
+  "main": "index.js",
+  "scripts": {
+    "setup-dbs": "psql -f ./db/setup.sql",
+    "seed": "node ./db/seeds/run-seed.js",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joelali5/Authentication-system-backend.git"
+  },
+  "author": "Joel Aliyu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joelali5/Authentication-system-backend/issues"
+  },
+  "homepage": "https://github.com/joelali5/Authentication-system-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "pg": "^8.10.0",
+    "pg-format": "^1.0.4",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}

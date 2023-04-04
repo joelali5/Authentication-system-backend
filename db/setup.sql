@@ -1,0 +1,5 @@
+DROP DATABASE IF EXISTS nodelogin_test;
+DROP DATABASE IF EXISTS nodelogin;
+
+CREATE DATABASE nodelogin_test;
+CREATE DATABASE nodelogin;
