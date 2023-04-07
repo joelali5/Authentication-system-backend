@@ -8,12 +8,13 @@ const seed = async (userData) => {
   //Create the users table
   await db.query(`
         CREATE TABLE users(
-            email VARCHAR PRIMARY KEY,
+            user_id SERIAL PRIMARY KEY,
+            email VARCHAR NOT NULL,
             password VARCHAR NOT NULL,
-            photo VARCHAR,
-            name VARCHAR,
-            bio VARCHAR,
-            phone VARCHAR,
+            photo VARCHAR DEFAULT 'change photo',
+            name VARCHAR DEFAULT 'add a name',
+            bio VARCHAR DEFAULT 'update status',
+            phone VARCHAR DEFAULT 'add a phone number',
             UNIQUE (email)
         )
     ;`);
