@@ -1,16 +1,14 @@
 const db = require("./../db/connection");
 
-exports.fetchUsers = () => {
-  return db.query("SELECT * FROM users").then((result) => result.rows);
+exports.fetchUsers = async () => {
+  const result = await db.query("SELECT * FROM users");
+  return result.rows;
 };
 
-exports.insertUser = (email, password) => {
-  return db
-    .query("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *;", [
-      email,
-      password,
-    ])
-    .then((result) => {
-      return result.rows[0];
-    });
+exports.insertUser = async (email, password) => {
+  const result = await db.query(
+    "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *;",
+    [email, password]
+  );
+  return result.rows[0];
 };
