@@ -23,7 +23,6 @@ describe("/api/users", () => {
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
-        console.log(body.user);
         expect(body.user).toMatchObject({
           user_id: expect.any(Number),
           email: expect.any(String),
