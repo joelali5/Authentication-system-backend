@@ -1,22 +1,33 @@
 const express = require("express");
-const { getUsers, postUser } = require("./controllers/controllers");
-const {
-  handleCustomErrors,
-  handlePsqlErrors,
-  handleServerErrors,
-} = require("./errors/errors");
-
 const app = express();
+const { signup, getUsers, signin } = require("./user.controller");
 app.use(express.json());
 
-const cors = require("cors");
-app.use(cors());
+app.post("/signup", signup);
+app.post("/signin", signin);
+app.get("/users", getUsers);
 
-app.get("/api/users", getUsers);
-app.post("/api/users", postUser);
+app.all("/*", (req, res) => {
+  res.status(404).send({ msg: "Bad request!" });
+});
 
-app.use(handleCustomErrors);
-app.use(handlePsqlErrors);
-app.use(handleServerErrors);
+app.use((err, req, res, next) => {
+  if (err.status && err.msg) {
+    res.status(err.status).send({ msg: err.msg });
+  } else {
+    next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  if (err.code === "22P02" || err.code === "23502") {
+    res.status(400).send({ msg: "Invalid input" });
+  } else next(err);
+});
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).send("Server error!");
+});
 
 module.exports = app;
