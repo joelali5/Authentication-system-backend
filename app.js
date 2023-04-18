@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const { signup, getUsers, signin } = require("./user.controller");
+const { signup, getUsers, signin, authenticateUser } = require("./user.controller");
 app.use(express.json());
 
 app.post("/signup", signup);
 app.post("/signin", signin);
-app.get("/users", getUsers);
+app.get("/users", authenticateUser, getUsers);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Bad request!" });
