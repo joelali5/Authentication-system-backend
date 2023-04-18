@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
-    "seed": "node ./db/seeds/run-seed.js",
+    "relation": "node ./db/relations.js",
     "start": "nodemon server.js",
-    "test": "psql -f ./db/setup.sql && jest"
+    "test": "psql -f ./db/setup.sql"
   },
   "repository": {
     "type": "git",
@@ -21,10 +21,14 @@
   "homepage": "https://github.com/joelali5/Authentication-system-backend#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.22",
+    "passport": "^0.6.0",
     "pg": "^8.10.0",
     "pg-format": "^1.0.4"
   },
