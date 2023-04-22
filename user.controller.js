@@ -96,3 +96,13 @@ exports.authenticateUser = async (req, res, next) => {
     next();
   });
 };
+
+//Get Profile
+exports.userProfile = async (req, res, next) => {
+
+};
+
+//Edit Profile
+exports.editProfile = async (req, res, next) => {
+
+};
