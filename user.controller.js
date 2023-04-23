@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { createUser, fetchUsers, userLogin } = require("./user.model");
+const { createUser, fetchUsers, userLogin, fetchProfile } = require("./user.model");
 const utils = require("./utils");
 const jwt = require("jsonwebtoken");
 
@@ -30,7 +30,7 @@ exports.signup = async (req, res, next) => {
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await fetchUsers();
-    users.forEach(user => delete user['password']);
+    users.forEach((user) => delete user["password"]);
     return res.status(200).send({ users });
   } catch (error) {
     next(error);
@@ -99,10 +99,24 @@ exports.authenticateUser = async (req, res, next) => {
 
 //Get Profile
 exports.userProfile = async (req, res, next) => {
-
+  const userId = req.user.userId;
+  try {
+    const userProfile = await fetchProfile(userId);
+    res.status(200).send({profile: userProfile});
+  } catch (error) {
+    next(error);
+  }
 };
 
 //Edit Profile
-exports.editProfile = async (req, res, next) => {
+exports.updateEmail = async (req, res, next) => {};
 
-};
+exports.updatePassword = async (req, res, next) => {};
+
+exports.updatePhoto = async (req, res, next) => {};
+
+exports.updateName = async (req, res, next) => {};
+
+exports.updateBio = async (req, res, next) => {};
+
+exports.updatePhone = async (req, res, next) => {};

@@ -26,3 +26,9 @@ exports.userLogin = async (email, password) => {
   
   return {user, passwordMatch};
 };
+
+//Get a User's Profile
+exports.fetchProfile = async (user_id) => {
+  const user = await db.query('SELECT * FROM users WHERE user_id = $1;', [user_id]);
+  return user.rows[0];
+};

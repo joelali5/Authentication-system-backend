@@ -1,13 +1,30 @@
 const express = require("express");
 const app = express();
-const { signup, getUsers, signin, authenticateUser, userProfile, editProfile } = require("./user.controller");
+const {
+  signup,
+  getUsers,
+  signin,
+  authenticateUser,
+  userProfile,
+  updateEmail,
+  updatePassword,
+  updateName,
+  updatePhoto,
+  updateBio,
+  updatePhone
+} = require("./user.controller");
 app.use(express.json());
 
 app.post("/signup", signup);
 app.post("/signin", signin);
 app.get("/users", authenticateUser, getUsers);
-app.get("users/:id", authenticateUser, userProfile);
-app.patch("/users/:id", authenticateUser, editProfile);
+app.get("/user", authenticateUser, userProfile);
+app.patch("/user/email", updateEmail);
+app.patch("/user/password", updatePassword);
+// app.patch("/user/photo", updatePhoto);
+app.patch("/user/name", updateName);
+app.patch("/user/bio", updateBio);
+app.patch("/user/phone", updatePhone);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Bad request!" });
