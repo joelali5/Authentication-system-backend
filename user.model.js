@@ -50,3 +50,14 @@ exports.updateName = async (user_id, newName) => {
   const result = await db.query('UPDATE users SET name = $1 WHERE user_id = $2 RETURNING *;', [newName, user_id]);
   return result.rows[0];
 };
+
+exports.updateBio = async (user_id, newBio) => {
+  const result = await db.query('UPDATE users SET bio = $1 WHERE user_id = $2 RETURNING *;', [newBio, user_id]);
+  return result.rows[0];
+};
+
+//Update Phone number
+exports.updatePhone = async (user_id, newPhone) => {
+  const result = await db.query('UPDATE users SET phone = $1 WHERE user_id = $2 RETURNING *;', [newPhone, user_id]);
+  return result.rows[0];
+};
