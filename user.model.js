@@ -44,3 +44,9 @@ exports.updatePassword = async (user_id, hashedPassword) => {
   const result = await db.query('UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *;', [hashedPassword, user_id]);
   return result.rows[0];
 };
+
+//Update Name
+exports.updateName = async (user_id, newName) => {
+  const result = await db.query('UPDATE users SET name = $1 WHERE user_id = $2 RETURNING *;', [newName, user_id]);
+  return result.rows[0];
+};

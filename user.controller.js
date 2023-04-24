@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { createUser, fetchUsers, userLogin, fetchProfile, updateEmail, updatePassword } = require("./user.model");
+const { createUser, fetchUsers, userLogin, fetchProfile, updateEmail, updatePassword, updateName } = require("./user.model");
 const utils = require("./utils");
 const jwt = require("jsonwebtoken");
 
@@ -129,7 +129,7 @@ exports.updateEmail = async (req, res, next) => {
 
 exports.updatePassword = async (req, res, next) => {
   const {userId} = req.user;
-  const {newPassword} = req.body
+  const {newPassword} = req.body;
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   try {
     const updatedPassword = await updatePassword(userId, hashedPassword);
@@ -141,7 +141,16 @@ exports.updatePassword = async (req, res, next) => {
 
 exports.updatePhoto = async (req, res, next) => {};
 
-exports.updateName = async (req, res, next) => {};
+exports.updateName = async (req, res, next) => {
+  const {userId} = req.user;
+  const {newName} = req.body;
+  try {
+    const updatedName = await updateName(userId, newName);
+    res.status(201).send(updatedName);
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.updateBio = async (req, res, next) => {};
 
