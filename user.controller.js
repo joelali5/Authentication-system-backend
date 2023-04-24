@@ -113,6 +113,12 @@ exports.updateEmail = async (req, res, next) => {
   const {userId} = req.user;
   const {newEmail} = req.body
   try {
+    //check that the email is valid
+    if (!utils.isEmailValid(newEmail)) {
+      return res
+        .status(400)
+        .send({ message: "Please enter a valid email address..." });
+    }
     const updatedEmail = await updateEmail(userId, newEmail);
     res.status(201).send({user: updatedEmail});
   } catch (error) {
