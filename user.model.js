@@ -32,3 +32,32 @@ exports.fetchProfile = async (user_id) => {
   const user = await db.query('SELECT * FROM users WHERE user_id = $1;', [user_id]);
   return user.rows[0];
 };
+
+//Update Email
+exports.updateEmail = async (user_id, newEmail) => {
+  const result = await db.query('UPDATE users SET email = $1 WHERE user_id = $2 RETURNING *;', [newEmail, user_id]);
+  return result.rows[0];
+}
+
+//Update Password
+exports.updatePassword = async (user_id, hashedPassword) => {
+  const result = await db.query('UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *;', [hashedPassword, user_id]);
+  return result.rows[0];
+};
+
+//Update Name
+exports.updateName = async (user_id, newName) => {
+  const result = await db.query('UPDATE users SET name = $1 WHERE user_id = $2 RETURNING *;', [newName, user_id]);
+  return result.rows[0];
+};
+
+exports.updateBio = async (user_id, newBio) => {
+  const result = await db.query('UPDATE users SET bio = $1 WHERE user_id = $2 RETURNING *;', [newBio, user_id]);
+  return result.rows[0];
+};
+
+//Update Phone number
+exports.updatePhone = async (user_id, newPhone) => {
+  const result = await db.query('UPDATE users SET phone = $1 WHERE user_id = $2 RETURNING *;', [newPhone, user_id]);
+  return result.rows[0];
+};

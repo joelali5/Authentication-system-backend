@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { createUser, fetchUsers, userLogin, fetchProfile } = require("./user.model");
+const { createUser, fetchUsers, userLogin, fetchProfile, updateEmail, updatePassword, updateName, updateBio, updatePhone } = require("./user.model");
 const utils = require("./utils");
 const jwt = require("jsonwebtoken");
 
@@ -109,14 +109,68 @@ exports.userProfile = async (req, res, next) => {
 };
 
 //Edit Profile
-exports.updateEmail = async (req, res, next) => {};
+exports.updateEmail = async (req, res, next) => {
+  const {userId} = req.user;
+  const {newEmail} = req.body
+  try {
+    //check that the email is valid
+    if (!utils.isEmailValid(newEmail)) {
+      return res
+        .status(400)
+        .send({ message: "Please enter a valid email address..." });
+    }
+    const updatedEmail = await updateEmail(userId, newEmail);
+    res.status(201).send(updatedEmail);
+  } catch (error) {
+    next(error);
+  }
+};
 
-exports.updatePassword = async (req, res, next) => {};
+
+exports.updatePassword = async (req, res, next) => {
+  const {userId} = req.user;
+  const {newPassword} = req.body;
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  try {
+    const updatedPassword = await updatePassword(userId, hashedPassword);
+    res.status(201).send(updatedPassword);
+  } catch (error) {
+    next(error)
+  }
+};
 
 exports.updatePhoto = async (req, res, next) => {};
 
-exports.updateName = async (req, res, next) => {};
+exports.updateName = async (req, res, next) => {
+  const {userId} = req.user;
+  const {newName} = req.body;
+  try {
+    const updatedName = await updateName(userId, newName);
+    res.status(201).send(updatedName);
+  } catch (error) {
+    next(error);
+  }
+};
 
-exports.updateBio = async (req, res, next) => {};
+exports.updateBio = async (req, res, next) => {
+  const {userId} = req.user;
+  const {newBio} = req.body;
+  try {
+    const updatedBio = await updateBio(userId, newBio);
+    res.status(201).send(updatedBio);
+  } catch (error) {
+    next(error);
+  }
+};
 
-exports.updatePhone = async (req, res, next) => {};
+exports.updatePhone = async (req, res, next) => {
+  const {userId} = req.user;
+  const {newPhone} = req.body;
+
+  try {
+    const updatedPhone = await updatePhone(userId, newPhone);
+    res.status(201).send(updatedPhone)
+  } catch (error) {
+    next(error);
+  }
+};
