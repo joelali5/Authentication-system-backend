@@ -38,3 +38,9 @@ exports.updateEmail = async (user_id, newEmail) => {
   const result = await db.query('UPDATE users SET email = $1 WHERE user_id = $2 RETURNING *;', [newEmail, user_id]);
   return result.rows[0];
 }
+
+//Update Password
+exports.updatePassword = async (user_id, hashedPassword) => {
+  const result = await db.query('UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *;', [hashedPassword, user_id]);
+  return result.rows[0];
+};

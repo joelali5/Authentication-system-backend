@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { createUser, fetchUsers, userLogin, fetchProfile, updateEmail } = require("./user.model");
+const { createUser, fetchUsers, userLogin, fetchProfile, updateEmail, updatePassword } = require("./user.model");
 const utils = require("./utils");
 const jwt = require("jsonwebtoken");
 
@@ -120,7 +120,7 @@ exports.updateEmail = async (req, res, next) => {
         .send({ message: "Please enter a valid email address..." });
     }
     const updatedEmail = await updateEmail(userId, newEmail);
-    res.status(201).send({user: updatedEmail});
+    res.status(201).send(updatedEmail);
   } catch (error) {
     next(error);
   }
@@ -128,7 +128,15 @@ exports.updateEmail = async (req, res, next) => {
 
 
 exports.updatePassword = async (req, res, next) => {
-  
+  const {userId} = req.user;
+  const {newPassword} = req.body
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  try {
+    const updatedPassword = await updatePassword(userId, hashedPassword);
+    res.status(201).send(updatedPassword);
+  } catch (error) {
+    next(error)
+  }
 };
 
 exports.updatePhoto = async (req, res, next) => {};
