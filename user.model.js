@@ -32,3 +32,9 @@ exports.fetchProfile = async (user_id) => {
   const user = await db.query('SELECT * FROM users WHERE user_id = $1;', [user_id]);
   return user.rows[0];
 };
+
+//Update Email
+exports.updateEmail = async (user_id, newEmail) => {
+  const result = await db.query('UPDATE users SET email = $1 WHERE user_id = $2 RETURNING *;', [newEmail, user_id]);
+  return result.rows[0];
+}

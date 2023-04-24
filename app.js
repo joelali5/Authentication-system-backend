@@ -19,12 +19,12 @@ app.post("/signup", signup);
 app.post("/signin", signin);
 app.get("/users", authenticateUser, getUsers);
 app.get("/user", authenticateUser, userProfile);
-app.patch("/user/email", updateEmail);
-app.patch("/user/password", updatePassword);
-// app.patch("/user/photo", updatePhoto);
-app.patch("/user/name", updateName);
-app.patch("/user/bio", updateBio);
-app.patch("/user/phone", updatePhone);
+app.patch("/user/email", authenticateUser, updateEmail);
+app.patch("/user/password", authenticateUser, updatePassword);
+// app.patch("/user/photo", authenticateUser, updatePhoto);
+app.patch("/user/name", authenticateUser, updateName);
+app.patch("/user/bio", authenticateUser, updateBio);
+app.patch("/user/phone", authenticateUser, updatePhone);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Bad request!" });
