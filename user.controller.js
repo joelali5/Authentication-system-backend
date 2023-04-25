@@ -120,7 +120,7 @@ exports.updateEmail = async (req, res, next) => {
         .send({ message: "Please enter a valid email address..." });
     }
     const updatedEmail = await updateEmail(userId, newEmail);
-    res.status(201).send(updatedEmail);
+    res.status(201).send({message: "Email updated successfully!"});
   } catch (error) {
     next(error);
   }
@@ -133,7 +133,7 @@ exports.updatePassword = async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   try {
     const updatedPassword = await updatePassword(userId, hashedPassword);
-    res.status(201).send(updatedPassword);
+    res.status(201).send({message: "Password updated successfully!"});
   } catch (error) {
     next(error)
   }
@@ -146,7 +146,7 @@ exports.updateName = async (req, res, next) => {
   const {newName} = req.body;
   try {
     const updatedName = await updateName(userId, newName);
-    res.status(201).send(updatedName);
+    res.status(201).send({message: "Name updated successfully!"});
   } catch (error) {
     next(error);
   }
@@ -157,7 +157,7 @@ exports.updateBio = async (req, res, next) => {
   const {newBio} = req.body;
   try {
     const updatedBio = await updateBio(userId, newBio);
-    res.status(201).send(updatedBio);
+    res.status(201).send({message: "Bio updated successfully!"});
   } catch (error) {
     next(error);
   }
@@ -169,7 +169,7 @@ exports.updatePhone = async (req, res, next) => {
 
   try {
     const updatedPhone = await updatePhone(userId, newPhone);
-    res.status(201).send(updatedPhone)
+    res.status(201).send({message: "Number updated successfully!"})
   } catch (error) {
     next(error);
   }
