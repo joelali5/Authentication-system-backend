@@ -1,5 +1,18 @@
 const bcrypt = require("bcrypt");
-const { createUser, fetchUsers, userLogin, fetchProfile, updateEmail, updatePassword, updateName, updateBio, updatePhone } = require("./user.model");
+const {
+  createUser,
+  fetchUsers,
+  userLogin,
+  fetchProfile,
+  updateEmail,
+  updatePassword,
+  updateName,
+  updateBio,
+  updatePhone,
+  insertImage,
+  fetchImage,
+  updateImg
+} = require("./user.model");
 const utils = require("./utils");
 const jwt = require("jsonwebtoken");
 
@@ -102,7 +115,7 @@ exports.userProfile = async (req, res, next) => {
   const userId = req.user.userId;
   try {
     const userProfile = await fetchProfile(userId);
-    res.status(200).send({profile: userProfile});
+    res.status(200).send({ profile: userProfile });
   } catch (error) {
     next(error);
   }
@@ -110,8 +123,8 @@ exports.userProfile = async (req, res, next) => {
 
 //Edit Profile
 exports.updateEmail = async (req, res, next) => {
-  const {userId} = req.user;
-  const {newEmail} = req.body
+  const { userId } = req.user;
+  const { newEmail } = req.body;
   try {
     //check that the email is valid
     if (!utils.isEmailValid(newEmail)) {
@@ -120,57 +133,92 @@ exports.updateEmail = async (req, res, next) => {
         .send({ message: "Please enter a valid email address..." });
     }
     const updatedEmail = await updateEmail(userId, newEmail);
-    res.status(201).send({message: "Email updated successfully!"});
+    res.status(201).send({ message: "Email updated successfully!" });
   } catch (error) {
     next(error);
   }
 };
 
-
 exports.updatePassword = async (req, res, next) => {
-  const {userId} = req.user;
-  const {newPassword} = req.body;
+  const { userId } = req.user;
+  const { newPassword } = req.body;
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   try {
     const updatedPassword = await updatePassword(userId, hashedPassword);
-    res.status(201).send({message: "Password updated successfully!"});
+    res.status(201).send({ message: "Password updated successfully!" });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
-exports.updatePhoto = async (req, res, next) => {};
+exports.uploadPhoto = async (req, res, next) => {
+  const { userId } = req.user;
+  const { name, data } = req.files.image;
+  const imgData = data.toString("base64");
+
+  try {
+    //Send image off to the database
+    await insertImage(name, imgData, userId);
+    res.status(201).send({ message: "Image uploaded successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getImage = async (req, res, next) => {
+  const userId = req.user;
+  try {
+    const img = await fetchImage(userId);
+    res.status(200).send(img);
+  } catch (error) {
+    next(error);
+  }
+};
+//`<img src=data:image/jpeg;base64,${img.data.toString("base64")} />`
 
 exports.updateName = async (req, res, next) => {
-  const {userId} = req.user;
-  const {newName} = req.body;
+  const { userId } = req.user;
+  const { newName } = req.body;
   try {
     const updatedName = await updateName(userId, newName);
-    res.status(201).send({message: "Name updated successfully!"});
+    res.status(201).send({ message: "Name updated successfully!" });
   } catch (error) {
     next(error);
   }
 };
 
 exports.updateBio = async (req, res, next) => {
-  const {userId} = req.user;
-  const {newBio} = req.body;
+  const { userId } = req.user;
+  const { newBio } = req.body;
   try {
     const updatedBio = await updateBio(userId, newBio);
-    res.status(201).send({message: "Bio updated successfully!"});
+    res.status(201).send({ message: "Bio updated successfully!" });
   } catch (error) {
     next(error);
   }
 };
 
 exports.updatePhone = async (req, res, next) => {
-  const {userId} = req.user;
-  const {newPhone} = req.body;
+  const { userId } = req.user;
+  const { newPhone } = req.body;
 
   try {
     const updatedPhone = await updatePhone(userId, newPhone);
-    res.status(201).send({message: "Number updated successfully!"})
+    res.status(201).send({ message: "Number updated successfully!" });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.updatePhoto = async (req, res, next) => {
+  const {userId} = req.user;
+  const {name, data} = req.files.image;
+  const imgData = data.toString('base64');
+
+  try {
+    await updateImg(name, imgData, userId);
+    res.status(201).send({message: "Image successfully updated!"});
+  } catch (error) {
+    next(error)
   }
 };

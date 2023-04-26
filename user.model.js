@@ -20,44 +20,87 @@ exports.fetchUsers = async () => {
 exports.userLogin = async (email, password) => {
   const user = await db.query("SELECT * FROM users WHERE email = $1;", [email]);
   let passwordMatch;
-  if(user.rowCount > 0){
+  if (user.rowCount > 0) {
     passwordMatch = await utils.passwordMatch(password, user.rows[0].password);
   }
-  
-  return {user, passwordMatch};
+
+  return { user, passwordMatch };
 };
 
 //Get a User's Profile
 exports.fetchProfile = async (user_id) => {
-  const user = await db.query('SELECT * FROM users WHERE user_id = $1;', [user_id]);
+  const user = await db.query("SELECT * FROM users WHERE user_id = $1;", [
+    user_id,
+  ]);
   return user.rows[0];
 };
 
 //Update Email
 exports.updateEmail = async (user_id, newEmail) => {
-  const result = await db.query('UPDATE users SET email = $1 WHERE user_id = $2 RETURNING *;', [newEmail, user_id]);
+  const result = await db.query(
+    "UPDATE users SET email = $1 WHERE user_id = $2 RETURNING *;",
+    [newEmail, user_id]
+  );
   return result.rows[0];
-}
+};
 
 //Update Password
 exports.updatePassword = async (user_id, hashedPassword) => {
-  const result = await db.query('UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *;', [hashedPassword, user_id]);
+  const result = await db.query(
+    "UPDATE users SET password = $1 WHERE user_id = $2 RETURNING *;",
+    [hashedPassword, user_id]
+  );
   return result.rows[0];
 };
 
 //Update Name
 exports.updateName = async (user_id, newName) => {
-  const result = await db.query('UPDATE users SET name = $1 WHERE user_id = $2 RETURNING *;', [newName, user_id]);
+  const result = await db.query(
+    "UPDATE users SET name = $1 WHERE user_id = $2 RETURNING *;",
+    [newName, user_id]
+  );
   return result.rows[0];
 };
 
 exports.updateBio = async (user_id, newBio) => {
-  const result = await db.query('UPDATE users SET bio = $1 WHERE user_id = $2 RETURNING *;', [newBio, user_id]);
+  const result = await db.query(
+    "UPDATE users SET bio = $1 WHERE user_id = $2 RETURNING *;",
+    [newBio, user_id]
+  );
   return result.rows[0];
 };
 
 //Update Phone number
 exports.updatePhone = async (user_id, newPhone) => {
-  const result = await db.query('UPDATE users SET phone = $1 WHERE user_id = $2 RETURNING *;', [newPhone, user_id]);
+  const result = await db.query(
+    "UPDATE users SET phone = $1 WHERE user_id = $2 RETURNING *;",
+    [newPhone, user_id]
+  );
+  return result.rows[0];
+};
+
+//Add image to the database
+exports.insertImage = async (name, data, user_id) => {
+  const result = await db.query(
+    "INSERT INTO images(name, data, user_id) VALUES($1, $2, $3);",
+    [name, data, user_id]
+  );
+  return result.rows[0];
+};
+
+//Get a user's profile image
+exports.fetchImage = async (img_id) => {
+  const result = await db.query("SELECT * FROM images WHERE img_id = $1;", [
+    img_id,
+  ]);
+  return result.rows[0];
+};
+
+//Update Image
+exports.updateImg = async (name, data, user_id) => {
+  const result = await db.query(
+    "UPDATE images SET name=$1, data=$2 WHERE user_id=$3 RETURNING *;",
+    [name, data, user_id]
+  );
   return result.rows[0];
 };
