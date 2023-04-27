@@ -29,14 +29,15 @@ app.use(
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send(`
-    <form action="/user/photo" method="POST" enctype="multipart/form-data">
-      <input type="file" name="image" />
-      <button type="submit">Upload</button>
-    </form>
-  `);
-});
+//Test
+// app.get("/", (req, res) => {
+//   res.send(`
+//     <form action="/user/photo" method="POST" enctype="multipart/form-data">
+//       <input type="file" name="image" />
+//       <button type="submit">Upload</button>
+//     </form>
+//   `);
+// });
 
 app.post("/signup", signup);
 app.post("/signin", signin);
