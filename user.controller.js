@@ -34,7 +34,7 @@ exports.signup = async (req, res, next) => {
         .send({ message: "Please enter a valid email address..." });
     }
     //Check if user already exists
-    if (utils.checkEmailExists(email) === true) {
+    if (!utils.checkEmailExists(email)) {
       return res
         .status(400)
         .send({

@@ -5,13 +5,13 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   //Check if email exists
   checkEmailExists: async (email) => {
-    const data = await db.query("SELECT * FROM users WHERE email = $1;", [
+    const result = await db.query("SELECT * FROM users WHERE email = $1;", [
       email,
     ]);
-    if (data.rowCount > 0) {
-      return true;
-    } else {
+    if (result.rows[0] === undefined) {
       return false;
+    } else {
+      return true;
     }
   },
 
