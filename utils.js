@@ -8,8 +8,10 @@ module.exports = {
     const result = await db.query("SELECT * FROM users WHERE email = $1;", [
       email,
     ]);
-    if(result.rowCount > 0){
+    if (result.rowCount > 0) {
       return true;
+    } else {
+      false;
     }
   },
 

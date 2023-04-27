@@ -18,9 +18,10 @@ const jwt = require("jsonwebtoken");
 
 //Create a new user
 exports.signup = async (req, res, next) => {
-  const { email, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
   try {
+    const { email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     //Check that user has filled the email and password
     if (!email || !password) {
       return res
@@ -34,13 +35,12 @@ exports.signup = async (req, res, next) => {
         .send({ message: "Please enter a valid email address..." });
     }
     //Check if user already exists
-    if (utils.checkEmailExists(email)) {
-      return res
-        .status(400)
-        .send({
-          message: "User with this email already exists! Please sign in",
-        });
+    if (utils.checkEmailExists(email) === true) {
+      res.status(400).send({
+        message: "User with this email already exists! Please sign in",
+      });
     }
+    //Create the new user
     const newUser = await createUser(email, hashedPassword);
     const user = { email: newUser.email };
     return res.status(201).send({ user });
