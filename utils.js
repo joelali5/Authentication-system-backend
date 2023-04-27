@@ -8,8 +8,7 @@ module.exports = {
     const data = await db.query("SELECT * FROM users WHERE email = $1;", [
       email,
     ]);
-    if (data.rowCount === 0) return false;
-    return data.rows[0];
+    return data.rowCount > 0;
   },
 
   //Check if the passwords match

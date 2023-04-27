@@ -11,7 +11,7 @@ const {
   updatePhone,
   insertImage,
   fetchImage,
-  updateImg
+  updateImg,
 } = require("./user.model");
 const utils = require("./utils");
 const jwt = require("jsonwebtoken");
@@ -21,15 +21,25 @@ exports.signup = async (req, res, next) => {
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
+    //Check that user has filled the email and password
     if (!email || !password) {
       return res
         .status(400)
         .send({ message: "Please fill in the missing fields..." });
     }
+    //Check that the user has supplied a valid email
     if (!utils.isEmailValid(email)) {
       return res
         .status(400)
         .send({ message: "Please enter a valid email address..." });
+    }
+    //Check if user already exists
+    if (!utils.checkEmailExists(email)) {
+      return res
+        .status(400)
+        .send({
+          message: "User with this email already exists! Please sign in",
+        });
     }
     const newUser = await createUser(email, hashedPassword);
     const user = { email: newUser.email };
@@ -211,14 +221,14 @@ exports.updatePhone = async (req, res, next) => {
 };
 
 exports.updatePhoto = async (req, res, next) => {
-  const {userId} = req.user;
-  const {name, data} = req.files.image;
-  const imgData = data.toString('base64');
+  const { userId } = req.user;
+  const { name, data } = req.files.image;
+  const imgData = data.toString("base64");
 
   try {
     await updateImg(name, imgData, userId);
-    res.status(201).send({message: "Image successfully updated!"});
+    res.status(201).send({ message: "Image successfully updated!" });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
