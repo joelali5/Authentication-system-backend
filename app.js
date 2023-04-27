@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const fileUpload = require("express-fileupload");
+const cors = require("cors");
+
 const {
   signup,
   getUsers,
@@ -24,6 +26,7 @@ app.use(
     abortOnLimit: true,
   })
 );
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
