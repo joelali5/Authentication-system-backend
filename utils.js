@@ -8,7 +8,11 @@ module.exports = {
     const data = await db.query("SELECT * FROM users WHERE email = $1;", [
       email,
     ]);
-    return data.rowCount > 0;
+    if (data.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
   },
 
   //Check if the passwords match
@@ -22,7 +26,9 @@ module.exports = {
   },
 
   generateToken: (id) => {
-    const token = jwt.sign({userId: id}, process.env.SECRET,{ expiresIn: "7d" });
+    const token = jwt.sign({ userId: id }, process.env.SECRET, {
+      expiresIn: "7d",
+    });
     return token;
   },
 };
