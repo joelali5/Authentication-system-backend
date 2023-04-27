@@ -3,18 +3,6 @@ const db = require("./db/connection");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  //Check if email exists
-  checkEmailExists: async (email) => {
-    const result = await db.query("SELECT * FROM users WHERE email = $1;", [
-      email,
-    ]);
-    if (result.rowCount > 0) {
-      return true;
-    } else {
-      false;
-    }
-  },
-
   //Check if the passwords match
   passwordMatch: async (password, hashedPassword) => {
     const match = await bcrypt.compare(password, hashedPassword);

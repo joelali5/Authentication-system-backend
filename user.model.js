@@ -104,3 +104,11 @@ exports.updateImg = async (name, data, user_id) => {
   );
   return result.rows[0];
 };
+
+//Check if email exists
+exports.checkEmailExists = async (email) => {
+  const user = await db.query("SELECT * FROM users WHERE email = $1;", [
+    email,
+  ]);
+  return user.rowCount > 0;
+};
