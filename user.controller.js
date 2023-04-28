@@ -37,7 +37,7 @@ exports.signup = async (req, res, next) => {
     //Create the new user
     const newUser = await createUser(email, hashedPassword);
     const user = { email: newUser.email };
-    return res.redirect("/sign").send({ user });
+    return res.redirect("/sign");
   } catch (error) {
     next(error);
   }
