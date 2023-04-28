@@ -10,8 +10,7 @@ const createRelation = async () => {
         password VARCHAR NOT NULL,
         name VARCHAR DEFAULT 'add a name',
         bio VARCHAR DEFAULT 'update status',
-        phone VARCHAR DEFAULT 'add a phone number',
-        UNIQUE (email)
+        phone VARCHAR DEFAULT 'add a phone number'
     );
     CREATE TABLE images(
       img_id SERIAL PRIMARY KEY,
