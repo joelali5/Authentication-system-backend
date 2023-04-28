@@ -12,7 +12,6 @@ const {
   insertImage,
   fetchImage,
   updateImg,
-  checkEmailExists,
 } = require("./user.model");
 const utils = require("./utils");
 const jwt = require("jsonwebtoken");
@@ -34,14 +33,6 @@ exports.signup = async (req, res, next) => {
       .status(400)
       .send({ message: "Please enter a valid email address..." });
   }
-  //Check if user already exists
-  const emailExists = await checkEmailExists(email);
-  if (emailExists.rowCount === 0) {
-    return res.status(400).send({
-      message: "User with this email already exists! Please sign in",
-    });
-  }
-  
   try {
     //Create the new user
     const newUser = await createUser(email, hashedPassword);
