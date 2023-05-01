@@ -89,9 +89,9 @@ exports.insertImage = async (name, data, user_id) => {
 };
 
 //Get a user's profile image
-exports.fetchImage = async (img_id) => {
-  const result = await db.query("SELECT * FROM images WHERE img_id = $1;", [
-    img_id,
+exports.fetchImage = async (user_id) => {
+  const result = await db.query("SELECT * FROM images WHERE user_id = $1;", [
+    user_id,
   ]);
   return result.rows[0];
 };

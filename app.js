@@ -49,7 +49,7 @@ app.post("/user/photo", authenticateUser, uploadPhoto);
 app.patch("/user/name", authenticateUser, updateName);
 app.patch("/user/bio", authenticateUser, updateBio);
 app.patch("/user/phone", authenticateUser, updatePhone);
-app.get("/user/photo/", authenticateUser, getImage);
+app.get("/user/photo", authenticateUser, getImage);
 app.patch("/user/photo/update", authenticateUser, updatePhoto);
 
 app.all("/*", (req, res) => {
