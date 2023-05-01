@@ -161,7 +161,6 @@ exports.uploadPhoto = async (req, res, next) => {
   const { name, data } = req.files.image;
 
   const imgData = data.toString("base64");
-  console.log(name, imgData);
 
   try {
     //Send image off to the database
@@ -174,7 +173,7 @@ exports.uploadPhoto = async (req, res, next) => {
 
 //GET IMAGE
 exports.getImage = async (req, res, next) => {
-  const userId = req.user;
+  const {userId} = req.user;
   try {
     const img = await fetchImage(userId);
     res.status(200).send(img);
