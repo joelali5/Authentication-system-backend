@@ -45,7 +45,7 @@ app.get("/users", authenticateUser, getUsers);
 app.get("/user", authenticateUser, userProfile);
 app.patch("/user/email", authenticateUser, updateEmail);
 app.patch("/user/password", authenticateUser, updatePassword);
-app.post("/user/photo", uploadPhoto);
+app.post("/user/photo", authenticateUser, uploadPhoto);
 app.patch("/user/name", authenticateUser, updateName);
 app.patch("/user/bio", authenticateUser, updateBio);
 app.patch("/user/phone", authenticateUser, updatePhone);
