@@ -155,10 +155,13 @@ exports.updatePassword = async (req, res, next) => {
   }
 };
 
+//UPLOAD IMAGE
 exports.uploadPhoto = async (req, res, next) => {
-  const { userId } = req.user;
+  // const { userId } = req.user;
   const { name, data } = req.files.image;
+
   const imgData = data.toString("base64");
+  console.log(name, imgData);
 
   try {
     //Send image off to the database
@@ -169,6 +172,7 @@ exports.uploadPhoto = async (req, res, next) => {
   }
 };
 
+//GET IMAGE
 exports.getImage = async (req, res, next) => {
   const userId = req.user;
   try {
