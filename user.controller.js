@@ -4,11 +4,7 @@ const {
   fetchUsers,
   userLogin,
   fetchProfile,
-  updateEmail,
-  updatePassword,
-  updateName,
-  updateBio,
-  updatePhone,
+  changeProfile,
   insertImage,
   fetchImage,
   updateImg,
@@ -126,9 +122,10 @@ exports.userProfile = async (req, res, next) => {
 };
 
 //Edit Profile
-exports.updateEmail = async (req, res, next) => {
+exports.updateProfile = async (req, res, next) => {
   const { userId } = req.user;
-  const { newEmail } = req.body;
+  const { newEmail, newName, newPhone, newBio, newPassword} = req.body;
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
   try {
     //check that the email is valid
     if (!utils.isEmailValid(newEmail)) {
@@ -136,20 +133,8 @@ exports.updateEmail = async (req, res, next) => {
         .status(400)
         .send({ message: "Please enter a valid email address..." });
     }
-    const updatedEmail = await updateEmail(userId, newEmail);
-    res.status(201).send({ message: "Email updated successfully!" });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.updatePassword = async (req, res, next) => {
-  const { userId } = req.user;
-  const { newPassword } = req.body;
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-  try {
-    const updatedPassword = await updatePassword(userId, hashedPassword);
-    res.status(201).send({ message: "Password updated successfully!" });
+    await changeProfile(userId, newEmail, newName, newPhone, newBio, hashedPassword);
+    res.status(201).send({ message: "Profile updated successfully!" });
   } catch (error) {
     next(error);
   }
@@ -179,41 +164,6 @@ exports.getImage = async (req, res, next) => {
   try {
     const img = await fetchImage(userId);
     res.status(200).send(img);
-  } catch (error) {
-    next(error);
-  }
-};
-//`<img src=data:image/jpeg;base64,${img.data.toString("base64")} />`
-
-exports.updateName = async (req, res, next) => {
-  const { userId } = req.user;
-  const { newName } = req.body;
-  try {
-    const updatedName = await updateName(userId, newName);
-    res.status(201).send({ message: "Name updated successfully!" });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.updateBio = async (req, res, next) => {
-  const { userId } = req.user;
-  const { newBio } = req.body;
-  try {
-    const updatedBio = await updateBio(userId, newBio);
-    res.status(201).send({ message: "Bio updated successfully!" });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.updatePhone = async (req, res, next) => {
-  const { userId } = req.user;
-  const { newPhone } = req.body;
-
-  try {
-    const updatedPhone = await updatePhone(userId, newPhone);
-    res.status(201).send({ message: "Number updated successfully!" });
   } catch (error) {
     next(error);
   }

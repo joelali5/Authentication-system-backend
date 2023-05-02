@@ -9,14 +9,10 @@ const {
   signin,
   authenticateUser,
   userProfile,
-  updateEmail,
-  updatePassword,
-  updateName,
   uploadPhoto,
-  updateBio,
-  updatePhone,
   getImage,
   updatePhoto,
+  updateProfile,
 } = require("./user.controller");
 app.use(
   fileUpload({
@@ -29,26 +25,12 @@ app.use(
 app.use(cors());
 app.use(express.json());
 
-//Test
-// app.get("/", (req, res) => {
-//   res.send(`
-//     <form action="/user/photo" method="POST" enctype="multipart/form-data">
-//       <input type="file" name="image" />
-//       <button type="submit">Upload</button>
-//     </form>
-//   `);
-// });
-
 app.post("/signup", signup);
 app.post("/signin", signin);
 app.get("/users", authenticateUser, getUsers);
 app.get("/user", authenticateUser, userProfile);
-app.patch("/user/email", authenticateUser, updateEmail);
-app.patch("/user/password", authenticateUser, updatePassword);
+app.patch("/user/profile", authenticateUser, updateProfile);
 app.post("/user/photo", authenticateUser, uploadPhoto);
-app.patch("/user/name", authenticateUser, updateName);
-app.patch("/user/bio", authenticateUser, updateBio);
-app.patch("/user/phone", authenticateUser, updatePhone);
 app.get("/user/photo", authenticateUser, getImage);
 app.patch("/user/photo/update", authenticateUser, updatePhoto);
 
