@@ -31,9 +31,8 @@ exports.signup = async (req, res, next) => {
   }
   try {
     //Create the new user
-    const newUser = await createUser(email, hashedPassword);
-    const user = { email: newUser.email };
-    res.status(200).send(user);
+    await createUser(email, hashedPassword);
+    res.status(200).send({message: "Registration Successful!"});
   } catch (error) {
     next(error);
   }
