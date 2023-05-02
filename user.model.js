@@ -36,10 +36,10 @@ exports.fetchProfile = async (user_id) => {
 };
 
 //Update Profile
-exports.changeProfile = async (user_id, newEmail, newName, newPhone, newBio, hashedPassword) => {
+exports.changeProfile = async (user_id, email, name, phone, bio, hashedPassword) => {
   const result = await db.query(
     "UPDATE users SET email = $1, name=$2, phone=$3, bio=$4, password=$5 WHERE user_id = $6 RETURNING *;",
-    [newEmail, newName, newPhone, newBio, hashedPassword, user_id]
+    [email, name, phone, bio, hashedPassword, user_id]
   );
   return result.rows[0];
 };

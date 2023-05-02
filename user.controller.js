@@ -124,16 +124,16 @@ exports.userProfile = async (req, res, next) => {
 //Edit Profile
 exports.updateProfile = async (req, res, next) => {
   const { userId } = req.user;
-  const { newEmail, newName, newPhone, newBio, newPassword} = req.body;
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const { email, name, phone, bio, password} = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
   try {
     //check that the email is valid
-    if (!utils.isEmailValid(newEmail)) {
+    if (!utils.isEmailValid(email)) {
       return res
         .status(400)
         .send({ message: "Please enter a valid email address..." });
     }
-    await changeProfile(userId, newEmail, newName, newPhone, newBio, hashedPassword);
+    await changeProfile(userId, email, name, phone, bio, hashedPassword);
     res.status(201).send({ message: "Profile updated successfully!" });
   } catch (error) {
     next(error);
