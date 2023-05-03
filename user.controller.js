@@ -145,11 +145,11 @@ exports.uploadPhoto = async (req, res, next) => {
   const data = req.files.data;
   const name = data.name;
 
-  const imgData = data.toString("base64");
+  // const imgData = data.toString("base64");
 
   try {
     //Send image off to the database
-    await insertImage(name, imgData, userId);
+    await insertImage(name, data, userId);
     res.status(201).send({ message: "Image uploaded successfully" });
   } catch (error) {
     next(error);
