@@ -32,7 +32,7 @@ exports.signup = async (req, res, next) => {
   try {
     //Create the new user
     await createUser(email, hashedPassword);
-    res.status(200).send({message: "Registration Successful!"});
+    res.status(200).send({ message: "Registration Successful!" });
   } catch (error) {
     next(error);
   }
@@ -123,7 +123,7 @@ exports.userProfile = async (req, res, next) => {
 //Edit Profile
 exports.updateProfile = async (req, res, next) => {
   const { userId } = req.user;
-  const { email, name, phone, bio, password} = req.body;
+  const { email, name, phone, bio, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
     //check that the email is valid
@@ -145,11 +145,11 @@ exports.uploadPhoto = async (req, res, next) => {
   const data = req.files.data;
   const name = data.name;
 
-  const imgData = data.toString("base64");
+  // const imgData = data.toString("base64");
 
   try {
     //Send image off to the database
-    await insertImage(name, imgData, userId);
+    await insertImage(name, data, userId);
     res.status(201).send({ message: "Image uploaded successfully" });
   } catch (error) {
     next(error);
@@ -158,7 +158,7 @@ exports.uploadPhoto = async (req, res, next) => {
 
 //GET IMAGE
 exports.getImage = async (req, res, next) => {
-  const {userId} = req.user;
+  const { userId } = req.user;
   try {
     const img = await fetchImage(userId);
     res.status(200).send(img);
